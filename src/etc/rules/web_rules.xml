@@ -1,0 +1,135 @@
+<!-- @(#) $Id: ./etc/rules/web_rules.xml, 2013/02/28 dcid Exp $
+
+  -
+  -  Official Web access rules for OSSEC.
+  -
+  -  Copyright (C) 2009 Trend Micro Inc.
+  -  All rights reserved.
+  -
+  -  This program is a free software; you can redistribute it
+  -  and/or modify it under the terms of the GNU General Public
+  -  License (version 2) as published by the FSF - Free Software
+  -  Foundation.
+  -
+  -  License details: http://www.ossec.net/en/licensing.html
+  -->
+  
+  
+<group name="web,accesslog,">
+  <rule id="31100" level="0">
+    <category>web-log</category>
+    <description>Access log messages grouped.</description>
+  </rule>
+
+  <rule id="31108" level="0">
+    <if_sid>31100</if_sid>
+    <id>^2|^3</id>
+    <compiled_rule>is_simple_http_request</compiled_rule>
+    <description>Ignored URLs (simple queries).</description>
+   </rule>
+
+  <rule id="31101" level="5">
+    <if_sid>31100</if_sid>
+    <id>^4</id>
+    <description>Web server 400 error code.</description>
+  </rule>
+
+  <rule id="31102" level="0">
+    <if_sid>31101</if_sid>
+    <url>.jpg$|.gif$|favicon.ico$|.png$|robots.txt$|.css$|.js$|.jpeg$</url>
+    <compiled_rule>is_simple_http_request</compiled_rule>
+    <description>Ignored extensions on 400 error codes.</description>
+  </rule>
+  
+  <rule id="31110" level="6">
+    <if_sid>31100</if_sid>
+    <url>?-d|?-s|?-a|?-b|?-w</url>
+    <description>PHP CGI-bin vulnerability attempt.</description>
+    <group>attack,</group>
+  </rule>
+
+  <rule id="31120" level="5">
+    <if_sid>31100</if_sid>
+    <id>^50</id>
+    <description>Web server 500 error code (server error).</description>
+  </rule>
+
+  <rule id="31121" level="4">
+    <if_sid>31120</if_sid>
+    <id>^501</id>
+    <description>Web server 501 error code (Not Implemented).</description>
+  </rule>
+
+  <rule id="31122" level="5">
+    <if_sid>31120</if_sid>
+    <id>^500</id>
+    <options>alert_by_email</options>
+    <description>Web server 500 error code (Internal Error).</description>
+    <group>system_error,</group>
+  </rule>
+  
+  <rule id="31123" level="4">
+    <if_sid>31120</if_sid>
+    <id>^503</id>
+    <options>alert_by_email</options>
+    <description>Web server 503 error code (Service unavailable).</description>
+  </rule>
+
+  <rule id="31124" level="4">
+    <if_sid>31101</if_sid>
+    <id>^404</id>
+    <description>Web server 404 error code.</description>
+  </rule>
+
+
+  <!-- Rules to ignore crawlers -->
+  <rule id="31140" level="0">
+    <if_sid>31101</if_sid>
+    <compiled_rule>is_valid_crawler</compiled_rule>
+    <description>Ignoring google/msn/yahoo bots.</description>
+  </rule>
+
+  <!-- Ignoring nginx 499's -->
+  <rule id="31141" level="0">
+    <if_sid>31101</if_sid>
+    <id>^499</id>
+    <description>Ignored 499's on nginx.</description>
+  </rule>
+
+  <rule id="31151" level="10" frequency="15" timeframe="60">
+    <if_matched_sid>31101</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple web server 400 error codes </description>
+    <description>from same source ip.</description>
+    <group>web_scan,recon,</group>
+  </rule>
+
+  <rule id="31152" level="10" frequency="6" timeframe="60">
+    <if_matched_sid>31124</if_matched_sid>
+    <same_source_ip />
+    <different_url />
+    <description>Multiple 404 (not found) errors from same IP to different URLs.</description>
+    <group>web_scan,recon,</group>
+  </rule>
+
+  <rule id="31161" level="10" frequency="15" timeframe="120">
+    <if_matched_sid>31121</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple web server 501 error code (Not Implemented).</description>
+    <group>web_scan,recon,</group>
+  </rule>
+  
+  <rule id="31162" level="10" frequency="15" timeframe="90">
+    <if_matched_sid>31122</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple web server 500 error code (Internal Error).</description>
+    <group>system_error,</group>
+  </rule>
+  
+  <rule id="31163" level="10" frequency="12" timeframe="90">
+    <if_matched_sid>31123</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple web server 503 error code (Service unavailable).</description>
+    <group>web_scan,recon,</group>
+  </rule>
+</group> <!-- Web access log -->
