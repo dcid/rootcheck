@@ -130,12 +130,12 @@ int OSMatch_Execute(char *str, int str_len, OSMatch *reg)
                             str_len, 
                             reg->size[i]) == TRUE)
         {
-            return(1);
+            return(reg->negate == 0?1:0);
         }
         i++;
     }
 
-    return(0);
+    return(reg->negate);
 }    
 
 

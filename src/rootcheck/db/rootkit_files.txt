@@ -408,6 +408,29 @@ var/adm/sa/.adm         ! Solaris Worm ::
 var/spool/lp/admins/.lp ! Solaris Worm ::
 
 
+# XOR.DDoS
+etc/cron.hourly/gcc.sh      ! XOR.DDoS :: http://blog.checkpoint.com/wp-content/uploads/2015/10/sb-report-threat-intelligence-groundhog.pdf
+lib/libudev.so              ! XOR.DDoS :: http://blog.checkpoint.com/wp-content/uploads/2015/10/sb-report-threat-intelligence-groundhog.pdf
+lib/libudev.so.6            ! XOR.DDoS :: http://blog.checkpoint.com/wp-content/uploads/2015/10/sb-report-threat-intelligence-groundhog.pdf
+var/run/gcc.pid             ! XOR.DDoS :: http://blog.checkpoint.com/wp-content/uploads/2015/10/sb-report-threat-intelligence-groundhog.pdf
+
+
+# LinuxMint Backdoor
+var/lib/man.cy ! LinuxMint.Backdoor ::
+
+
+# Versatile trojan
+etc/init.d/DbSecuritySpt ! Versatile Trojan ::
+
+
+# Linux/Mumblehard
+var/tmp/qCVwOWA ! Linux/Mumblehard :: http://www.welivesecurity.com/wp-content/uploads/2015/04/mumblehard.pdf
+
+# Linux/Moose
+var/elan2 ! Linux/Moose :: http://www.welivesecurity.com/wp-content/uploads/2015/05/Dissecting-LinuxMoose.pdf
+dev/elan2 ! Linux/Moose :: http://www.welivesecurity.com/wp-content/uploads/2015/05/Dissecting-LinuxMoose.pdf
+
+
 #Suspicious files
 etc/rc.d/init.d/rc.modules	! Suspicious file ::rootkits/Suspicious.php
 lib/ldd.so			        ! Suspicious file ::rootkits/Suspicious.php

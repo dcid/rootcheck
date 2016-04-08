@@ -67,6 +67,14 @@ if [ "X${ARGV}" = "Xall" -o "X${ARGV}" = "Xrootcheck" -o "X${ARGV}" = "Xlibs" ];
         echo "OPENSSLCMD=-lssl -lcrypto" >> Config.OS
     fi    
 
+    # Checking for openssl Debian
+    ls /usr/include/openssl/conf.h > /dev/null 2>&1
+    if [ $? = 0 ]; then
+        echo "DEXTRA=-DUSE_OPENSSL" >> Config.OS
+        echo "OPENSSLCMD=-lssl -lcrypto" >> Config.OS
+    fi
+
+
     # Checking for inotify
     if [ "X$OS" = "XLinux" ]; then
         ls /usr/include/sys/inotify.h > /dev/null 2>&1

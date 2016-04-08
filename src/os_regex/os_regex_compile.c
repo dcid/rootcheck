@@ -50,6 +50,7 @@ int OSRegex_Compile(char *pattern, OSRegex *reg, int flags)
 
     /* Initializing OSRegex structure */
     reg->error = 0;
+    reg->negate = 0;
     reg->patterns = NULL;
     reg->flags = NULL;
     reg->prts_closure = NULL;
@@ -71,6 +72,15 @@ int OSRegex_Compile(char *pattern, OSRegex *reg, int flags)
         reg->error = OS_REGEX_MAXSIZE;
         goto compile_error;
     }
+
+
+    /* Checking if it is a negated entry. */
+    if(*pattern == '!')
+    {
+        reg->negate = 1;
+        pattern++;
+    }
+
     
     
     /* Duping the pattern for our internal work */

@@ -196,54 +196,53 @@ int Read_Localfile(XML_NODE node, void *d1, void *d2)
                     continue;
                 }
 
-
-                /* Checking for strftime on globs too. */
-                if(strchr(g.gl_pathv[glob_offset], '%'))
+                while(g.gl_pathv[glob_offset] != NULL)
                 {
-                    struct tm *p;
-                    time_t l_time = time(0);
-                    char lfile[OS_FLSIZE + 1];
-                    size_t ret;
-
-                    p = localtime(&l_time);
-
-                    lfile[OS_FLSIZE] = '\0';
-                    ret = strftime(lfile, OS_FLSIZE, g.gl_pathv[glob_offset], p);
-                    if(ret == 0)
+                    /* Checking for strftime on globs too. */
+                    if(strchr(g.gl_pathv[glob_offset], '%'))
                     {
-                        merror(PARSE_ERROR, ARGV0, g.gl_pathv[glob_offset]);
-                        return(OS_INVALID);
+                        struct tm *p;
+                        time_t l_time = time(0);
+                        char lfile[OS_FLSIZE + 1];
+                        size_t ret;
+
+                        p = localtime(&l_time);
+
+                        lfile[OS_FLSIZE] = '\0';
+                        ret = strftime(lfile, OS_FLSIZE, g.gl_pathv[glob_offset], p);
+                        if(ret == 0)
+                        {
+                            merror(PARSE_ERROR, ARGV0, g.gl_pathv[glob_offset]);
+                            return(OS_INVALID);
+                        }
+
+                        os_strdup(g.gl_pathv[glob_offset], logf[pl].ffile);
+                        os_strdup(g.gl_pathv[glob_offset], logf[pl].file);
                     }
-
-                    os_strdup(g.gl_pathv[glob_offset], logf[pl].ffile);
-                    os_strdup(g.gl_pathv[glob_offset], logf[pl].file);
-                }
-                else
-                {
-                    os_strdup(g.gl_pathv[glob_offset], logf[pl].file);
-                }
-
+                    else
+                    {
+                        os_strdup(g.gl_pathv[glob_offset], logf[pl].file);
+                    }
                 
-                glob_offset++;
-                globfree(&g);
+                    glob_offset++;
 
-                /* Now we need to create another file entry */
-                pl++;
-                os_realloc(logf, (pl +2)*sizeof(logreader), log_config->config);
-                logf = log_config->config;
+                    /* Now we need to create another file entry */
+                    pl++;
+                    os_realloc(logf, (pl +2)*sizeof(logreader), log_config->config);
+                    logf = log_config->config;
                 
-                logf[pl].file = NULL;
-                logf[pl].alias = NULL;
-                logf[pl].logformat = NULL;
-                logf[pl].fp = NULL;
-                logf[pl].ffile = NULL;
+                    logf[pl].file = NULL;
+                    logf[pl].alias = NULL;
+                    logf[pl].logformat = NULL;
+                    logf[pl].fp = NULL;
+                    logf[pl].ffile = NULL;
                             
-                logf[pl +1].file = NULL;
-                logf[pl +1].alias = NULL;
-                logf[pl +1].logformat = NULL;
+                    logf[pl +1].file = NULL;
+                    logf[pl +1].alias = NULL;
+                    logf[pl +1].logformat = NULL;
+                }
 
-                /* We can not increment the file count in here */
-                continue;
+                globfree(&g);
             }
             else if(strchr(node[i]->content, '%'))
             #else

@@ -86,6 +86,14 @@
     <group>authentication_failures,</group>
   </rule>
 
+  <rule id="9552" level="6" frequency="0" timeframe="28800">
+    <if_matched_sid>9502</if_matched_sid>
+    <same_user />
+    <different_geoip />
+    <description>Multiple successful logins from same user and different geoip.</description>
+    <group>behaviour_anomaly,</group>
+  </rule>
+
 </group>
   
 

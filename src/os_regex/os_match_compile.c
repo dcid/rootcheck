@@ -57,6 +57,7 @@ int OSMatch_Compile(char *pattern, OSMatch *reg, int flags)
     reg->error = 0;
     reg->patterns = NULL;
     reg->size = NULL;
+    reg->negate = 0;
 
 
     /* The pattern can't be null */
@@ -73,7 +74,15 @@ int OSMatch_Compile(char *pattern, OSMatch *reg, int flags)
         reg->error = OS_REGEX_MAXSIZE;
         goto compile_error;
     }
-    
+
+
+    /* Checking if it is a negated entry. */
+    if(*pattern == '!')
+    {
+        reg->negate = 1;
+        pattern++;
+    } 
+   
     
     /* Duping the pattern for our internal work */
     new_str = strdup(pattern);

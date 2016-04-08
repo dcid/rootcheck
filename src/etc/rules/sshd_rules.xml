@@ -263,7 +263,7 @@
     <group>authentication_failed,</group>
   </rule>
 
-  <rule id="5739" level="6" frequency="1" timeframe="7200">
+  <rule id="5739" level="6" frequency="0" timeframe="28800">
     <if_matched_sid>5715</if_matched_sid>
     <same_user />
     <different_geoip />

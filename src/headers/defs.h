@@ -52,15 +52,15 @@
 
 /* Some Global names */
 #define __name      "OSSEC HIDS"
-#define __version   "v2016-02"
-#define __author    "Trend Micro Inc."
-#define __contact   "contact@ossec.net"
-#define __site      "http://www.ossec.net"
+#define __version   "v2016-04"
+#define __author    "Daniel B. Cid"
+#define __contact   "dcid@sucuri.net"
+#define __site      "http://dcid.me/ossec"
 #define __license   "\
 This program is free software; you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License (version 2) as \n\
-published by the Free Software Foundation. For more details, go to \n\
-http://www.ossec.net/main/license/\n"
+published by the Free Software Foundation."
+
 
 /* Maximum allowed PID */
 #ifdef SOLARIS

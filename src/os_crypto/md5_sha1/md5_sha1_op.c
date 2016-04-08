@@ -37,7 +37,7 @@ int OS_MD5_SHA1_File(char * fname, char *md5output, char *sha1output)
     sha1output[0] = '\0';
     buf[2048 +1] = '\0';
 
-    fp = fopen(fname,"r");
+    fp = fopen(fname,"rb");
     if(!fp)
         return(-1);
 

@@ -33,7 +33,7 @@ int OS_MD5_File(char * fname, char * output)
     memset(output,0, 33);
     buf[1024] = '\0';
     
-    fp = fopen(fname,"r");
+    fp = fopen(fname,"rb");
     if(!fp)
     {
         return(-1);

@@ -103,12 +103,12 @@ char *OSRegex_Execute(char *str, OSRegex *reg)
     {
         if((ret = _OS_Regex(reg->patterns[i], str, NULL, NULL, reg->flags[i]))) 
         {
-            return(ret);
+            return(reg->negate == 0?ret:NULL);
         }
         i++;
     }
 
-    return(NULL);
+    return(reg->negate == 0?NULL:str);
 }    
 
 #define PRTS(x) ((prts(*x) && x++) || 1)
